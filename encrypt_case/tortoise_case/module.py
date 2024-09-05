@@ -8,7 +8,7 @@ encrypted patient information using Tortoise ORM.
 
 import logging
 from tortoise import fields, models
-from encrypt_info.core import encrypt_data, decrypt_data
+from encrypt_case.core import encrypt_data, decrypt_data
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Run the Python unittest for encrypt_info.test
-python -m unittest encrypt_info.test
+# Run the Python unittest for encrypt_case.test
+python -m unittest encrypt_case.test
 
 # Check if the tests passed
 if [ $? -eq 0 ]; then

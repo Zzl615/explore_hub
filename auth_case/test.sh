@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Run the Python unittest for auth_code.test
-python -m unittest auth_code.test
+# Run the Python unittest for auth_case.test
+python -m unittest auth_case.test
 
 # Check if the tests passed
 if [ $? -eq 0 ]; then

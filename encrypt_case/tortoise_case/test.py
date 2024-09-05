@@ -12,7 +12,7 @@
 import unittest
 import logging
 from tortoise import Tortoise, run_async
-from encrypt_info.tortoise_case.module import Patient
+from encrypt_case.tortoise_case.module import Patient
 import asyncio
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -26,7 +26,7 @@ class TestPatientOperations(unittest.IsolatedAsyncioTestCase):
         logger.info("Setting up the database connection")
         await Tortoise.init(
             db_url=cls.db_url,
-            modules={"models": ["encrypt_info.tortoise_case.module"]},
+            modules={"models": ["encrypt_case.tortoise_case.module"]},
             timezone="Asia/Shanghai"
         )
         await Tortoise.generate_schemas()

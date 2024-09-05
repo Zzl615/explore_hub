@@ -12,7 +12,7 @@
 import time
 import logging
 import unittest
-from auth_code.core import Jwt
+from auth_case.core import Jwt
 from jwt import ExpiredSignatureError
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

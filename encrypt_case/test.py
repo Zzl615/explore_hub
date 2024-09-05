@@ -1,6 +1,6 @@
 import unittest
 import logging
-from encrypt_info.core import encrypt_data, decrypt_data
+from encrypt_case.core import encrypt_data, decrypt_data
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 

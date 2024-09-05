@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Run pytest for the encrypt_info/tortoise_case directory
-python -m encrypt_info.tortoise_case.test
+# Run pytest for the encrypt_case/tortoise_case directory
+python -m encrypt_case.tortoise_case.test
 
 # Check if the tests passed
 if [ $? -eq 0 ]; then
