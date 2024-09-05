@@ -1,80 +1,73 @@
-# -*- encoding: utf-8 -*-
-'''
-@File    :   test.py
-@Time    :   2024/09/05 16:18:10
-@Author  :   noaghzil
-@Version :   1.0
-@Contact :   noaghzil@gmail.com
-@Last Modified by  :   noaghzil
-@Last Modified time:   2024/09/05 16:18:10
-'''
+import unittest
+import logging
+from encrypt_info.core import encrypt_data, decrypt_data
 
-# here put the import lib
+logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 
-from module import Patient
-from tortoise import Tortoise, run_async
+logger = logging.getLogger(__name__)
 
-db_url = 'mysql://root:123456@127.0.0.1:3306/llm_demo?echo=true&pool_recycle=120'
+class TestEncryptDecrypt(unittest.TestCase):
 
+    def test_normal_string(self):
+        original = "Hello, World!"
+        logger.info(f"Testing normal string: {original}")
+        encrypted = encrypt_data(original)
+        logger.info(f"Encrypted: {encrypted}")
+        decrypted = decrypt_data(encrypted)
+        logger.info(f"Decrypted: {decrypted}")
+        logger.info("-" * 40)
+        self.assertEqual(decrypted, original)
 
-async def init_db():
-    await Tortoise.init(
-        db_url=db_url,
-        modules={"models": ["__main__"]},
-        timezone="Asia/Shanghai"
-    )
+    def test_empty_string(self):
+        original = ""
+        logger.info("Testing empty string")
+        encrypted = encrypt_data(original)
+        logger.info(f"Encrypted: {encrypted}")
+        decrypted = decrypt_data(encrypted)
+        logger.info(f"Decrypted: {decrypted}")
+        logger.info("-" * 40)
+        self.assertEqual(decrypted, original)
 
-async def search_patient(name):
-    query = Patient.filter(name__icontains=name)
-    print(query.sql())
-    result = await query.all()
-    for patient in result:
-        print(f'Patient: {patient.id}, {patient.name}, {patient.id_number}')
-        await patient.save()
+    def test_special_characters(self):
+        original = "!@#$%^&*()_+{}[]|\\:;\"'<>,.?/~`"
+        logger.info(f"Testing special characters: {original}")
+        encrypted = encrypt_data(original)
+        logger.info(f"Encrypted: {encrypted}")
+        decrypted = decrypt_data(encrypted)
+        logger.info(f"Decrypted: {decrypted}")
+        logger.info("-" * 40)
+        self.assertEqual(decrypted, original)
 
-async def create_patient(id_number, name, gender, birthday):
-    patient = await Patient.create(
-        id_number=id_number,
-        name=name,
-        gender=gender,
-        birthday=birthday
-    )
-    print(f'Created patient with id: {patient.id}')
-    return patient
+    def test_long_string(self):
+        original = "A" * 1000
+        logger.info(f"Testing long string of length: {len(original)}")
+        encrypted = encrypt_data(original)
+        logger.info(f"Encrypted length: {len(encrypted)}")
+        decrypted = decrypt_data(encrypted)
+        logger.info(f"Decrypted length: {len(decrypted)}")
+        logger.info("-" * 40)
+        self.assertEqual(decrypted, original)
 
-async def update_patient(patient_id, new_name):
-    patient = await Patient.filter(id=patient_id).update(name=new_name)
-    print('Patient updated')
-    return patient
+    def test_unicode_characters(self):
+        original = "你好，世界！こんにちは、世界！"
+        logger.info(f"Testing unicode characters: {original}")
+        encrypted = encrypt_data(original)
+        logger.info(f"Encrypted: {encrypted}")
+        decrypted = decrypt_data(encrypted)
+        logger.info(f"Decrypted: {decrypted}")
+        logger.info("-" * 40)
+        self.assertEqual(decrypted, original)
 
-async def delete_patient(patient_id):
-    await Patient.filter(id=patient_id).delete()
-    print('Patient deleted')
+    def test_all_ascii_characters(self):
+        original = ''.join(chr(i) for i in range(256))
+        logger.info("Testing all ASCII characters")
+        logger.info(f"Original length: {len(original)}")
+        encrypted = encrypt_data(original)
+        logger.info(f"Encrypted length: {len(encrypted)}")
+        decrypted = decrypt_data(encrypted)
+        logger.info(f"Decrypted length: {len(decrypted)}")
+        logger.info("-" * 40)
+        self.assertEqual(decrypted, original)
 
-async def run():
-    await init_db()
-
-    # # # 创建新患者
-    # patient = await create_patient('123456789012345678', '张三', '男', '1990-01-01')
-
-    # # # 更新患者
-    # await update_patient(patient.id, '李四')
-
-    # # 查询患者
-    result = await search_patient('四')
-
-    # query = Patient.filter(name='李四')
-    # print(query.sql())
-    # patient = await query.first()
-    # print(patient)
-    # if patient:
-    #     print(f'Patient: {patient.id}, {patient.name}, {patient.id_number}')
-    #     patient.gender = '女1'
-    #     await patient.save()
-    #     print('Patient updated')
-    
-    # 删除患者
-    # await delete_patient(patient.id)
-
-if __name__ == '__main__':
-    run_async(run())
+if __name__ == "__main__":
+    unittest.main()
