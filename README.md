@@ -1,4 +1,4 @@
-# EXPLORE_HUB
+# Explore_Hub
 
 Python代码用例的记录，方便自己回顾
 
