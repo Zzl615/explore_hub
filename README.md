@@ -1,6 +1,6 @@
 # Explore_Hub
 
-Python代码用例的记录，方便自己回顾
+记录Python代码用例，方便自己回顾
 
 ## Directory
 
