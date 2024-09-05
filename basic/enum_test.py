@@ -14,7 +14,7 @@ class EHRDocCatEnum(IntEnum):
     
 
 if __name__ == "__main__":
-    archives_records_list = {category.lower_name: [] for category in EHRDocCatEnum}
+    archives_records_list = {category.lname: [] for category in EHRDocCatEnum}
     print(archives_records_list)
     print(EHRDocCatEnum.CONDITION_SUMMARY)
     print(EHRDocCatEnum.CONDITION_SUMMARY.value)
